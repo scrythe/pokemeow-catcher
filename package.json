@@ -1,0 +1,17 @@
+{
+  "name": "auto-catchbot",
+  "version": "0.0.0",
+  "description": "auto catches pokemeow pokemons",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "auto",
+    "pokemon",
+    "catcher",
+    "pokemeow"
+  ],
+  "author": "scrythe",
+  "license": "MIT"
+}

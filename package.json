@@ -13,5 +13,11 @@
     "pokemeow"
   ],
   "author": "scrythe",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^13.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
 }

@@ -17,6 +17,7 @@ const __dirname = dirname(__filename);
   const page = await browser.newPage();
   await loginToDiscord(page, email, password);
   await openDiscordPokemonChannel(page);
+  await writePokemonCatchMessage(page);
 })();
 
 interface User {
@@ -60,4 +61,14 @@ async function openDiscordPokemonChannel(page: Page): Promise<void> {
     '#channels > ul > li:nth-child(12) > div > div > a > div.name-28HaxV.overflow-1wOqNV > div';
   await page.waitForSelector(pokemonChannelSelector);
   await page.click(pokemonChannelSelector);
+}
+
+async function writePokemonCatchMessage(page: Page) {
+  async function typeP() {
+    const typeMessageFieldSelecor =
+      '#app-mount > div.app-3xd6d0 > div > div.layers-OrUESM.layers-1YQhyW > div > div > div > div.content-1SgpWY > div.chat-2ZfjoI > div.content-1jQy2l > main > form > div > div > div > div.scrollableContainer-15eg7h.webkit-QgSAqd > div > div.textArea-2CLwUE.textAreaSlate-9-y-k2.slateContainer-3x9zil > div.markup-eYLPri.slateTextArea-27tjG0.fontSize16Padding-XoMpjI > div';
+    await page.type(typeMessageFieldSelecor, ';p');
+    await page.keyboard.press('Enter');
+  }
+  await typeP();
 }

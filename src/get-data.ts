@@ -20,3 +20,10 @@ export async function getLoginData(): Promise<User | undefined> {
   const { email, password }: User = data;
   return { email, password };
 }
+
+export async function getBrowserWSEndpoint() {
+  const data = await getData();
+  if (!data) return;
+  const { browserWSEndpoint } = data;
+  return browserWSEndpoint;
+}

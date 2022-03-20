@@ -1,6 +1,7 @@
 export interface Data {
   email: string;
   password: string;
+  browserWSEndpoint: string;
 }
 
 export interface User {
@@ -8,7 +9,7 @@ export interface User {
   password: string;
 }
 
-export interface newBrowser {
-  newBrowser: boolean;
+export interface NewBrowser {
+  newBrowser?: boolean;
   browserWSEndpoint?: string;
 }

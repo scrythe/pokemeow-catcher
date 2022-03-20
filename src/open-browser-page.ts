@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
-import { newBrowser } from './interfaces.js';
+import { getBrowserWSEndpoint } from './get-data.js';
+import { NewBrowser } from './interfaces.js';
 
 async function openCurrentBrowser(wsChromeEndpointUrl: string) {
   const browser = await puppeteer.connect({
@@ -13,11 +14,9 @@ async function openNewBrowser() {
   return browser;
 }
 
-export async function openBrowser({
-  newBrowser,
-  browserWSEndpoint,
-}: newBrowser) {
+export async function openBrowser({ newBrowser = true }: NewBrowser = {}) {
   if (newBrowser) return openNewBrowser();
-  if (!browserWSEndpoint) throw Error('Enter Browser WS Endpoint');
+  const browserWSEndpoint = await getBrowserWSEndpoint();
+  if (!browserWSEndpoint) return;
   return openCurrentBrowser(browserWSEndpoint);
 }

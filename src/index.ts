@@ -1,7 +1,13 @@
-import puppeteer, { Page } from 'puppeteer';
+import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { readFile } from 'fs/promises';
+import {
+  loginToDiscord,
+  openDiscordPokemonChannel,
+} from './login-open-channel.js';
+import { writePokemonCatchMessage } from './catch-pokemon.js';
+import { User } from './interfaces.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,56 +25,3 @@ const __dirname = dirname(__filename);
   await openDiscordPokemonChannel(page);
   await writePokemonCatchMessage(page);
 })();
-
-interface User {
-  email: string;
-  password: string;
-}
-
-async function loginToDiscord(
-  page: Page,
-  email: string,
-  password: string
-): Promise<void> {
-  await page.goto('https://discord.com/login');
-  const emailBoxSelector =
-    '#app-mount > div.app-3xd6d0 > div > div > div > div > form > div > div > div.mainLoginContainer-wHmAjP > div.block-3uVSn4.marginTop20-2T8ZJx > div.marginBottom20-315RVT > div > div.inputWrapper-1YNMmM.inputWrapper-3ESIDR > input';
-  const passwordBoxSelector =
-    '#app-mount > div.app-3xd6d0 > div > div > div > div > form > div > div > div.mainLoginContainer-wHmAjP > div.block-3uVSn4.marginTop20-2T8ZJx > div:nth-child(2) > div > input';
-  await page.waitForSelector(emailBoxSelector);
-  await page.waitForSelector(passwordBoxSelector);
-  await page.type(emailBoxSelector, email);
-  await page.type(passwordBoxSelector, password);
-  const loginButtonSelector =
-    '#app-mount > div.app-3xd6d0 > div > div > div > div > form > div > div > div.mainLoginContainer-wHmAjP > div.block-3uVSn4.marginTop20-2T8ZJx > button.marginBottom8-emkd0_.button-1cRKG6.button-f2h6uQ.lookFilled-yCfaCM.colorBrand-I6CyqQ.sizeLarge-3mScP9.fullWidth-fJIsjq.grow-2sR_-F';
-  await page.waitForSelector(loginButtonSelector);
-  await page.click(loginButtonSelector);
-}
-
-async function openDiscordPokemonChannel(page: Page): Promise<void> {
-  const serverBtnSelector =
-    '#app-mount > div.app-3xd6d0 > div > div.layers-OrUESM.layers-1YQhyW > div > div > nav > ul > div.scroller-3X7KbA.none-2-_0dP.scrollerBase-_bVAAt > div:nth-child(4) > div:nth-child(1) > div:nth-child(2) > div > div > svg > foreignObject > div';
-  await page.waitForSelector(serverBtnSelector);
-  await page.click(serverBtnSelector);
-  await page.waitForSelector('#channels');
-  await page.evaluate(() => {
-    const scroll = document.querySelector('#channels');
-    const scrollHeight = scroll?.scrollHeight || 0;
-    scroll?.scrollBy(0, scrollHeight);
-  });
-  await page.waitForTimeout(1000);
-  const pokemonChannelSelector =
-    '#channels > ul > li:nth-child(12) > div > div > a > div.name-28HaxV.overflow-1wOqNV > div';
-  await page.waitForSelector(pokemonChannelSelector);
-  await page.click(pokemonChannelSelector);
-}
-
-async function writePokemonCatchMessage(page: Page) {
-  async function typeP() {
-    const typeMessageFieldSelecor =
-      '#app-mount > div.app-3xd6d0 > div > div.layers-OrUESM.layers-1YQhyW > div > div > div > div.content-1SgpWY > div.chat-2ZfjoI > div.content-1jQy2l > main > form > div > div > div > div.scrollableContainer-15eg7h.webkit-QgSAqd > div > div.textArea-2CLwUE.textAreaSlate-9-y-k2.slateContainer-3x9zil > div.markup-eYLPri.slateTextArea-27tjG0.fontSize16Padding-XoMpjI > div';
-    await page.type(typeMessageFieldSelecor, ';p');
-    await page.keyboard.press('Enter');
-  }
-  await typeP();
-}

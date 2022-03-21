@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from 'puppeteer';
 import { getBrowserWSEndpoint } from './get-data.js';
-import { NewBrowser, NewPage, BrowserPage } from './interfaces.js';
+import { NewBrowser, NewPage, BrowserPage } from '../interfaces/interfaces.js';
 
 function checkIfDiscordUrl(link: string): boolean {
   const url = new URL(link);

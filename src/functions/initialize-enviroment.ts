@@ -3,7 +3,7 @@ import {
   loginToDiscord,
   openDiscordPokemonChannel,
 } from './login-open-channel.js';
-import { BrowserPage } from './interfaces';
+import { BrowserPage } from '../interfaces/interfaces.js';
 import { getLoginData } from './get-data.js';
 
 export async function initializeEnviroment({

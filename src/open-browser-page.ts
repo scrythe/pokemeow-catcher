@@ -2,6 +2,13 @@ import puppeteer, { Browser } from 'puppeteer';
 import { getBrowserWSEndpoint } from './get-data.js';
 import { NewBrowser, NewPage } from './interfaces.js';
 
+async function checkIfDiscordUrl(link: string): Promise<boolean> {
+  const url = new URL(link);
+  const discordHostname = 'discord.com';
+  if (url.hostname != discordHostname) return false;
+  return true;
+}
+
 async function openCurrentBrowser(wsChromeEndpointUrl: string) {
   const browser = await puppeteer.connect({
     browserWSEndpoint: wsChromeEndpointUrl,
@@ -23,9 +30,10 @@ export async function openBrowser({ newBrowser = true }: NewBrowser = {}) {
 
 async function openCurrentPage(browser: Browser): Promise<puppeteer.Page> {
   const pages = await browser.pages();
-  const [page] = pages.filter((currentPage) => {
-    if (currentPage.url() != 'discord.com') currentPage.close();
-    return true;
+  const [page] = pages.filter(async (currentPage): Promise<boolean> => {
+    const isDiscordUrl = await checkIfDiscordUrl(currentPage.url());
+    if (!isDiscordUrl) currentPage.close();
+    return isDiscordUrl;
   });
   return page;
 }

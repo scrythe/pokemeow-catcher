@@ -21,7 +21,7 @@ export async function getLoginData(): Promise<User | undefined> {
   return { email, password };
 }
 
-export async function getBrowserWSEndpoint() {
+export async function getBrowserWSEndpoint(): Promise<string | undefined> {
   const data = await getData();
   if (!data) return;
   const { browserWSEndpoint } = data;

@@ -9,14 +9,16 @@ function checkIfDiscordUrl(link: string): boolean {
   return true;
 }
 
-async function openCurrentBrowser(wsChromeEndpointUrl: string) {
+async function openCurrentBrowser(
+  wsChromeEndpointUrl: string
+): Promise<puppeteer.Browser> {
   const browser = await puppeteer.connect({
     browserWSEndpoint: wsChromeEndpointUrl,
   });
   return browser;
 }
 
-async function openNewBrowser() {
+async function openNewBrowser(): Promise<puppeteer.Browser> {
   const browser = await puppeteer.launch({ headless: false });
   return browser;
 }

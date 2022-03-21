@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from 'puppeteer';
 import { getBrowserWSEndpoint } from './get-data.js';
-import { NewBrowser, NewPage } from './interfaces.js';
+import { NewBrowser, NewPage, BrowserPage } from './interfaces.js';
 
 function checkIfDiscordUrl(link: string): boolean {
   const url = new URL(link);
@@ -23,7 +23,7 @@ async function openNewBrowser(): Promise<puppeteer.Browser> {
   return browser;
 }
 
-export async function openBrowser({ newBrowser = true }: NewBrowser = {}) {
+async function openBrowser({ newBrowser = true }: NewBrowser = {}) {
   if (newBrowser) return openNewBrowser();
   const browserWSEndpoint = await getBrowserWSEndpoint();
   if (!browserWSEndpoint) return;
@@ -45,10 +45,19 @@ async function openNewPage(browser: Browser): Promise<puppeteer.Page> {
   return page;
 }
 
-export async function openPage({
+async function openPage({
   browser,
   newPage = true,
 }: NewPage): Promise<puppeteer.Page> {
   if (newPage) return openNewPage(browser);
   return openCurrentPage(browser);
+}
+
+export async function openBrowserAndPage({
+  newTab = true,
+} = {}): Promise<BrowserPage> {
+  const browser = await openBrowser({ newBrowser: newTab });
+  if (!browser) throw Error('Browser not found');
+  const page = await openPage({ browser, newPage: newTab });
+  return { browser, page };
 }

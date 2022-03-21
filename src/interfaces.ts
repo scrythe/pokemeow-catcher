@@ -1,4 +1,4 @@
-import { Browser } from 'puppeteer';
+import { Browser, Page } from 'puppeteer';
 
 export interface Data {
   email: string;
@@ -19,4 +19,9 @@ export interface NewBrowser {
 export interface NewPage {
   browser: Browser;
   newPage?: boolean;
+}
+
+export interface BrowserPage {
+  browser: Browser;
+  page: Page;
 }

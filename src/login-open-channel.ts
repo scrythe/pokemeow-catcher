@@ -33,7 +33,7 @@ export async function openDiscordPokemonChannel(page: Page): Promise<void> {
   });
   await page.waitForTimeout(1000);
   const pokemonChannelSelector =
-    '#channels > ul > li:nth-child(12) > div > div > a > div.name-28HaxV.overflow-1wOqNV > div';
+    '#channels > ul > li:nth-child(19) > div > div > a > div.name-28HaxV.overflow-1wOqNV > div';
   await page.waitForSelector(pokemonChannelSelector);
   await page.click(pokemonChannelSelector);
 }

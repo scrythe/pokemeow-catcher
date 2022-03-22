@@ -22,7 +22,7 @@ export async function loginToDiscord(
 
 export async function openDiscordPokemonChannel(page: Page): Promise<void> {
   const serverBtnSelector =
-    '#app-mount > div.app-3xd6d0 > div > div.layers-OrUESM.layers-1YQhyW > div > div > nav > ul > div.scroller-3X7KbA.none-2-_0dP.scrollerBase-_bVAAt > div:nth-child(4) > div:nth-child(1) > div:nth-child(2) > div > div > svg > foreignObject > div';
+    '#app-mount > div.app-3xd6d0 > div > div.layers-OrUESM.layers-1YQhyW > div > div > nav > ul > div.scroller-3X7KbA.none-2-_0dP.scrollerBase-_bVAAt > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div > div > svg > foreignObject > div';
   await page.waitForSelector(serverBtnSelector);
   await page.click(serverBtnSelector);
   await page.waitForSelector('#channels');
